@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+
+      <button onclick="goBack()" style="
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+">←</button>
+
+        <h2>Find My Bus</h2>
+        <input type="text" id="busNumber" placeholder="Enter Bus Number">
+        <button onclick="findBus()">Show Location</button>
+        <p id="location"></p>
+    </div>
+
+    <script>
+        function goBack() {
+    window.location.href = "index.html"; // Adjust path if needed
+}
+        function findBus() {
+            const busNumber = document.getElementById("busNumber").value;
+            fetch(`http://127.0.0.1:5000/get_location/${busNumber}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.lat) {
+                        document.getElementById("location").innerText =
+                            `Bus is at Latitude: ${data.lat}, Longitude: ${data.lon}`;
+                    } else {
+                        document.getElementById("location").innerText = "Bus not found";
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
